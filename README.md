@@ -5,9 +5,9 @@ This project aims to develop a patient management system that allows healthcare 
 ## Features
 
 - Patient registration: Easily add new patients to the system by entering their personal and contact information.
-- Appointment scheduling: Schedule and manage patient appointments, including date, time, and assigned healthcare professional.
-- Medical record management: Maintain comprehensive medical records for each patient, including diagnoses, treatments, and medications.
-- Billing: Generate and manage patient invoices, track payments, and generate financial reports.
+- Appointment scheduling: Schedule and manage patient appointments, including date, time, and assigned healthcare professional. (updating)
+- Medical record management: Maintain comprehensive medical records for each patient, including diagnoses, treatments, and medications. (updating)
+- Billing: Generate and manage patient invoices, track payments, and generate financial reports. (updating)
 
 ## Installation
 
@@ -18,5 +18,4 @@ This project aims to develop a patient management system that allows healthcare 
 
 ## Usage
 
-1. 
-
+1. Register new patients and enter their information.
