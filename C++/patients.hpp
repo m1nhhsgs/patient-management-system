@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -34,12 +37,25 @@ class Patient {
         string accompanyDiagnosis;
     
     public:
-        void save_to_file();
-        void load_from_file();
-        void enter_patient_info();
-        void edit_patient_info();   
-        void delete_patient();
-        void delete_all_patients();
-        void search_patient();
+        void enter_personal_info();
+        void enter_medical_info();
+        string to_CSV();
+        void from_CSV(string csv);
+        void display_patient();
+
+        friend class PatientManager;
+};
+
+class PatientManager {
+    private:
+        vector<Patient> patients;
     
+    public:
+        void add_patient();
+        void edit_patient(string id);
+        void delete_patient(string id);
+        void delete_all_patients();
+        void save_to_file(string filename);
+        void load_from_file(string filename);
+        void search_patient(string id);
 };
