@@ -90,15 +90,16 @@ void load_from_file(){
 void enter_patient_info(){
     Patient p;
     printf("1. Enter personal information\n");
+    fflush(stdin); // Clear the input buffer (stdin)
     printf("ID: ");
     fgets(p.personalInfo.id, sizeof(p.personalInfo.id), stdin);
-    fflush(stdin); // Clear the input buffer (stdin)
     p.personalInfo.id[strcspn(p.personalInfo.id, "\n")] = '\0';
+    fflush(stdin);
 
-    // printf("Name: ");
-    // fgets(p.personalInfo.name, sizeof(p.personalInfo.name), stdin);
-    // fflush(stdin);
-    // p.personalInfo.name[strcspn(p.personalInfo.name, "\n")] = '\0';
+    printf("Name: ");
+    fgets(p.personalInfo.name, sizeof(p.personalInfo.name), stdin);
+    p.personalInfo.name[strcspn(p.personalInfo.name, "\n")] = '\0';
+    fflush(stdin);
     
     printf("Age: ");
     scanf("%d", &p.personalInfo.age);
@@ -132,7 +133,7 @@ void enter_patient_info(){
             return;
     }
     strcpy(p.personalInfo.gender, gender == Male ? "Male" : (gender == Female ? "Female" : "Others"));
-
+    fflush(stdin);
     printf("Address: ");
     fgets(p.personalInfo.address, 100, stdin);
     p.personalInfo.address[strlen(p.personalInfo.address) - 1] = '\0';
@@ -150,62 +151,80 @@ void enter_patient_info(){
     printf("Has insurance (1. Yes, 0. No): ");
     scanf("%d", &p.personalInfo.hasInsurance);
     if (p.personalInfo.hasInsurance) {
+        fflush(stdin);
         printf("Insurance expiry (DD/MM/YYYY): ");
         fgets(p.personalInfo.insuranceExpiry, 11, stdin);
         p.personalInfo.insuranceExpiry[strlen(p.personalInfo.insuranceExpiry) - 1] = '\0';
+        fflush(stdin); 
         printf("Insurance number: ");
         fgets(p.personalInfo.insuranceNumber, 20, stdin);
         p.personalInfo.insuranceNumber[strlen(p.personalInfo.insuranceNumber) - 1] = '\0';
     }
-
+    
     printf("Is Admitted (1. Yes, 0. No): ");
     scanf("%d", &p.personalInfo.isAdmitted);
+    fflush(stdin);
     if (p.personalInfo.isAdmitted) {
         printf("Department: ");
         fgets(p.personalInfo.department, 50, stdin);
         p.personalInfo.department[strlen(p.personalInfo.department) - 1] = '\0';
+        fflush(stdin); 
         printf("Room Number: ");
         scanf("%d", &p.personalInfo.roomNumber);
     }
-
+    fflush(stdin); 
     printf("2. Enter medical record\n");
     printf("Reason: ");
     fgets(p.medicalRecord.reason, 100, stdin);
     p.medicalRecord.reason[strlen(p.medicalRecord.reason) - 1] = '\0';
+    fflush(stdin); 
     printf("Allergies: ");
     fgets(p.medicalRecord.allergies, 100, stdin);
     p.medicalRecord.allergies[strlen(p.medicalRecord.allergies) - 1] = '\0';
+    fflush(stdin); 
     printf("Personal history: ");
     fgets(p.medicalRecord.personalHistory, 100, stdin);
     p.medicalRecord.personalHistory[strlen(p.medicalRecord.personalHistory) - 1] = '\0';
+    fflush(stdin); 
     printf("Family history: ");
     fgets(p.medicalRecord.familyHistory, 100, stdin);
     p.medicalRecord.familyHistory[strlen(p.medicalRecord.familyHistory) - 1] = '\0';
+    fflush(stdin); 
     printf("Body condition: ");
     fgets(p.medicalRecord.bodyCondition, 100, stdin);
     p.medicalRecord.bodyCondition[strlen(p.medicalRecord.bodyCondition) - 1] = '\0';
+    fflush(stdin); 
     printf("Pain condition: ");
     fgets(p.medicalRecord.painCondition, 100, stdin);
     p.medicalRecord.painCondition[strlen(p.medicalRecord.painCondition) - 1] = '\0';
+    fflush(stdin); 
     printf("Test results: ");
     fgets(p.medicalRecord.testResults, 200, stdin);
     p.medicalRecord.testResults[strlen(p.medicalRecord.testResults) - 1] = '\0';
+    fflush(stdin); 
     printf("Main diagnosis: ");
     fgets(p.medicalRecord.mainDiagnosis, 100, stdin);
     p.medicalRecord.mainDiagnosis[strlen(p.medicalRecord.mainDiagnosis) - 1] = '\0';
+    fflush(stdin); 
     printf("Accompany diagnosis: ");
     fgets(p.medicalRecord.accompanyDiagnosis, 100, stdin);
     p.medicalRecord.accompanyDiagnosis[strlen(p.medicalRecord.accompanyDiagnosis) - 1] = '\0';
-
+    fflush(stdin); 
     patients[patientCount++] = p;
     save_to_file();
 }
 
 void edit_patient_info() {
     char id[20];
-    printf("Enter ID to edit: ");
-    scanf("%s", id);
-    for (int i = 0; i < patientCount; i++) {
+    char name[50];
+    printf("Search patient by ID (choose 1) or name (choose 2): ");
+    int searchChoice;
+    scanf("%d", &searchChoice);
+    fflush(stdin); 
+    if (searchChoice == 1) {
+        printf("Enter ID to edit: ");
+        scanf("%s", id);
+        for (int i = 0; i < patientCount; i++) {
         if (strcmp(patients[i].personalInfo.id, id) == 0) {
             printf("Editing patient: %s\n", patients[i].personalInfo.name);
 
@@ -215,47 +234,63 @@ void edit_patient_info() {
 
             int choice;
             scanf("%d", &choice);
+            
+            
             if (choice == 1) {
+                fflush(stdin);
                 printf("1. ID: ");
                 fgets(patients[i].personalInfo.id, 20, stdin);
                 patients[i].personalInfo.id[strlen(patients[i].personalInfo.id) - 1] = '\0';
+                fflush(stdin);
                 printf("2. Name: ");
                 fgets(patients[i].personalInfo.name, 50, stdin);
                 patients[i].personalInfo.name[strlen(patients[i].personalInfo.name) - 1] = '\0';
+                fflush(stdin);
                 printf("3. Age: ");
                 scanf("%d", &patients[i].personalInfo.age);
+                fflush(stdin);
                 printf("4. Date of birth (DD/MM/YYYY): ");
                 fgets(patients[i].personalInfo.dateofBirth, 15, stdin);
                 patients[i].personalInfo.dateofBirth[strlen(patients[i].personalInfo.dateofBirth) - 1] = '\0';
+                fflush(stdin);
                 printf("5. Address: ");
                 fgets(patients[i].personalInfo.address, 100, stdin);
                 patients[i].personalInfo.address[strlen(patients[i].personalInfo.address) - 1] = '\0';
+                fflush(stdin);
                 printf("6. Phone: ");
                 fgets(patients[i].personalInfo.phone, 20, stdin);
                 patients[i].personalInfo.phone[strlen(patients[i].personalInfo.phone) - 1] = '\0';
+                fflush(stdin);
                 printf("7. Relative name: ");
                 fgets(patients[i].personalInfo.relativeName, 50, stdin);
                 patients[i].personalInfo.relativeName[strlen(patients[i].personalInfo.relativeName) - 1] = '\0';
+                fflush(stdin);
                 printf("8. Relative address: ");
                 fgets(patients[i].personalInfo.relativeAddress, 100, stdin);
                 patients[i].personalInfo.relativeAddress[strlen(patients[i].personalInfo.relativeAddress) - 1] = '\0';
+                fflush(stdin);
                 printf("9. Relative phone: ");
                 fgets(patients[i].personalInfo.relativePhone, 20, stdin);
                 patients[i].personalInfo.relativePhone[strlen(patients[i].personalInfo.relativePhone) - 1] = '\0';
+                fflush(stdin);
                 printf("10. Has insurance (1. Yes, 0. No): ");
                 scanf("%d", &patients[i].personalInfo.hasInsurance);
                 if (patients[i].personalInfo.hasInsurance) {
+                    fflush(stdin);
                     printf("11. Insurance expiry (DD/MM/YYYY): ");
                     fgets(patients[i].personalInfo.insuranceExpiry, 11, stdin);
                     patients[i].personalInfo.insuranceExpiry[strlen(patients[i].personalInfo.insuranceExpiry) - 1] = '\0';
+                    fflush(stdin);
                     printf("12. Insurance number: ");
                     fgets(patients[i].personalInfo.insuranceNumber, 20, stdin);
                 }
                 printf("13. Is Admitted (1. Yes, 0. No): ");
-                scanf(" %[^\n]", &patients[i].personalInfo.isAdmitted);
+                scanf("%d", &patients[i].personalInfo.isAdmitted);
                 if (patients[i].personalInfo.isAdmitted) {
+                    fflush(stdin);
                     printf("14. Department: ");
                     fgets(patients[i].personalInfo.department, 50, stdin);
+                    fflush(stdin);
                     printf("15. Room Number: ");
                     scanf("%d", &patients[i].personalInfo.roomNumber);
                 }
@@ -266,33 +301,171 @@ void edit_patient_info() {
             }
 
             if (choice == 2) {
+                fflush(stdin);
                 printf("1. Reason: ");
                 fgets(patients[i].medicalRecord.reason, 100, stdin);
                 patients[i].medicalRecord.reason[strlen(patients[i].medicalRecord.reason) - 1] = '\0';
+                fflush(stdin);
                 printf("2. Allergies: ");
                 fgets(patients[i].medicalRecord.allergies, 100, stdin);
                 patients[i].medicalRecord.allergies[strlen(patients[i].medicalRecord.allergies) - 1] = '\0';
+                fflush(stdin);
                 printf("3. Personal history: ");
                 fgets(patients[i].medicalRecord.personalHistory, 100, stdin);
                 patients[i].medicalRecord.personalHistory[strlen(patients[i].medicalRecord.personalHistory) - 1] = '\0';
+                fflush(stdin);
                 printf("4. Family history: ");
                 fgets(patients[i].medicalRecord.familyHistory, 100, stdin);
                 patients[i].medicalRecord.familyHistory[strlen(patients[i].medicalRecord.familyHistory) - 1] = '\0';
+                fflush(stdin);
                 printf("5. Body condition: ");
                 fgets(patients[i].medicalRecord.bodyCondition, 100, stdin);
                 patients[i].medicalRecord.bodyCondition[strlen(patients[i].medicalRecord.bodyCondition) - 1] = '\0';
+                fflush(stdin);
                 printf("6. Pain condition: ");
                 fgets(patients[i].medicalRecord.painCondition, 100, stdin);
                 patients[i].medicalRecord.painCondition[strlen(patients[i].medicalRecord.painCondition) - 1] = '\0';
+                fflush(stdin);
                 printf("7. Test results: ");
                 fgets(patients[i].medicalRecord.testResults, 200, stdin);
                 patients[i].medicalRecord.testResults[strlen(patients[i].medicalRecord.testResults) - 1] = '\0';
+                fflush(stdin);
                 printf("8. Main diagnosis: ");
                 fgets(patients[i].medicalRecord.mainDiagnosis, 100, stdin);
                 patients[i].medicalRecord.mainDiagnosis[strlen(patients[i].medicalRecord.mainDiagnosis) - 1] = '\0';
+                fflush(stdin);
                 printf("9. Accompany diagnosis: ");
                 fgets(patients[i].medicalRecord.accompanyDiagnosis, 100, stdin);
                 patients[i].medicalRecord.accompanyDiagnosis[strlen(patients[i].medicalRecord.accompanyDiagnosis) - 1] = '\0';
+                fflush(stdin);
+
+                printf("Medical record updated\n");
+                save_to_file();
+            }
+
+            return;
+        }
+        
+    }
+        printf("Patient not found\n");
+    } 
+    else if (searchChoice == 2) {
+        printf("Enter name to edit: ");
+        fgets(name, 50, stdin);
+        name[strlen(name) - 1] = '\0';
+        for (int i = 0; i < patientCount; i++) {
+        if (strcmp(patients[i].personalInfo.name, name) == 0) {
+            printf("Editing patient: %s\n", patients[i].personalInfo.name);
+
+            printf("Choose part you want to edit:\n");
+            printf("1. Personal information\n");
+            printf("2. Medical record\n");
+
+            int choice;
+            scanf("%d", &choice);
+            
+            if (choice == 1) {
+                fflush(stdin);
+                printf("1. ID: ");
+                fgets(patients[i].personalInfo.id, 20, stdin);
+                patients[i].personalInfo.id[strlen(patients[i].personalInfo.id) - 1] = '\0';
+                fflush(stdin);
+                printf("2. Name: ");
+                fgets(patients[i].personalInfo.name, 50, stdin);
+                patients[i].personalInfo.name[strlen(patients[i].personalInfo.name) - 1] = '\0';
+                fflush(stdin);
+                printf("3. Age: ");
+                scanf("%d", &patients[i].personalInfo.age);
+                fflush(stdin);
+                printf("4. Date of birth (DD/MM/YYYY): ");
+                fgets(patients[i].personalInfo.dateofBirth, 15, stdin);
+                patients[i].personalInfo.dateofBirth[strlen(patients[i].personalInfo.dateofBirth) - 1] = '\0';
+                fflush(stdin);
+                printf("5. Address: ");
+                fgets(patients[i].personalInfo.address, 100, stdin);
+                patients[i].personalInfo.address[strlen(patients[i].personalInfo.address) - 1] = '\0';
+                fflush(stdin);
+                printf("6. Phone: ");
+                fgets(patients[i].personalInfo.phone, 20, stdin);
+                patients[i].personalInfo.phone[strlen(patients[i].personalInfo.phone) - 1] = '\0';
+                fflush(stdin);
+                printf("7. Relative name: ");
+                fgets(patients[i].personalInfo.relativeName, 50, stdin);
+                patients[i].personalInfo.relativeName[strlen(patients[i].personalInfo.relativeName) - 1] = '\0';
+                fflush(stdin);
+                printf("8. Relative address: ");
+                fgets(patients[i].personalInfo.relativeAddress, 100, stdin);
+                patients[i].personalInfo.relativeAddress[strlen(patients[i].personalInfo.relativeAddress) - 1] = '\0';
+                fflush(stdin);
+                printf("9. Relative phone: ");
+                fgets(patients[i].personalInfo.relativePhone, 20, stdin);
+                patients[i].personalInfo.relativePhone[strlen(patients[i].personalInfo.relativePhone) - 1] = '\0';
+                fflush(stdin);
+                printf("10. Has insurance (1. Yes, 0. No): ");
+                scanf("%d", &patients[i].personalInfo.hasInsurance);
+                if (patients[i].personalInfo.hasInsurance) {
+                    fflush(stdin);
+                    printf("11. Insurance expiry (DD/MM/YYYY): ");
+                    fgets(patients[i].personalInfo.insuranceExpiry, 11, stdin);
+                    patients[i].personalInfo.insuranceExpiry[strlen(patients[i].personalInfo.insuranceExpiry) - 1] = '\0';
+                    fflush(stdin);
+                    printf("12. Insurance number: ");
+                    fgets(patients[i].personalInfo.insuranceNumber, 20, stdin);
+                }
+                printf("13. Is Admitted (1. Yes, 0. No): ");
+                scanf("%d", &patients[i].personalInfo.isAdmitted);
+                if (patients[i].personalInfo.isAdmitted) {
+                    fflush(stdin);
+                    printf("14. Department: ");
+                    fgets(patients[i].personalInfo.department, 50, stdin);
+                    fflush(stdin);
+                    printf("15. Room Number: ");
+                    scanf("%d", &patients[i].personalInfo.roomNumber);
+                }
+
+                save_to_file();
+                printf("Patient information updated\n");
+
+            }
+
+            if (choice == 2) {
+                fflush(stdin);
+                printf("1. Reason: ");
+                fgets(patients[i].medicalRecord.reason, 100, stdin);
+                patients[i].medicalRecord.reason[strlen(patients[i].medicalRecord.reason) - 1] = '\0';
+                fflush(stdin);
+                printf("2. Allergies: ");
+                fgets(patients[i].medicalRecord.allergies, 100, stdin);
+                patients[i].medicalRecord.allergies[strlen(patients[i].medicalRecord.allergies) - 1] = '\0';
+                fflush(stdin);
+                printf("3. Personal history: ");
+                fgets(patients[i].medicalRecord.personalHistory, 100, stdin);
+                patients[i].medicalRecord.personalHistory[strlen(patients[i].medicalRecord.personalHistory) - 1] = '\0';
+                fflush(stdin);
+                printf("4. Family history: ");
+                fgets(patients[i].medicalRecord.familyHistory, 100, stdin);
+                patients[i].medicalRecord.familyHistory[strlen(patients[i].medicalRecord.familyHistory) - 1] = '\0';
+                fflush(stdin);
+                printf("5. Body condition: ");
+                fgets(patients[i].medicalRecord.bodyCondition, 100, stdin);
+                patients[i].medicalRecord.bodyCondition[strlen(patients[i].medicalRecord.bodyCondition) - 1] = '\0';
+                fflush(stdin);
+                printf("6. Pain condition: ");
+                fgets(patients[i].medicalRecord.painCondition, 100, stdin);
+                patients[i].medicalRecord.painCondition[strlen(patients[i].medicalRecord.painCondition) - 1] = '\0';
+                fflush(stdin);
+                printf("7. Test results: ");
+                fgets(patients[i].medicalRecord.testResults, 200, stdin);
+                patients[i].medicalRecord.testResults[strlen(patients[i].medicalRecord.testResults) - 1] = '\0';
+                fflush(stdin);
+                printf("8. Main diagnosis: ");
+                fgets(patients[i].medicalRecord.mainDiagnosis, 100, stdin);
+                patients[i].medicalRecord.mainDiagnosis[strlen(patients[i].medicalRecord.mainDiagnosis) - 1] = '\0';
+                fflush(stdin);
+                printf("9. Accompany diagnosis: ");
+                fgets(patients[i].medicalRecord.accompanyDiagnosis, 100, stdin);
+                patients[i].medicalRecord.accompanyDiagnosis[strlen(patients[i].medicalRecord.accompanyDiagnosis) - 1] = '\0';
+                fflush(stdin);
 
                 printf("Medical record updated\n");
                 save_to_file();
@@ -303,12 +476,25 @@ void edit_patient_info() {
     
     }
     printf("Patient not found\n");
+    } 
+    else {
+        printf("Invalid choice\n");
+        return;
+    }
+
 }
 
 void search_patient() {
     char id[20];
+    char name[50];
+    printf("Search patient by ID (choose 1) or name (choose 2): ");
+    int searchChoice;
+    scanf("%d", &searchChoice);
+    fflush(stdin);
+    if (searchChoice == 1) {
+    fflush(stdin);
     printf("Enter ID to search: ");
-    scanf(" %[^\n]", id);
+    scanf(" %s", id);
     for (int i = 0; i < patientCount; i++) {
         if (strcmp(patients[i].personalInfo.id, id) == 0) {
             printf("Patient found:\n");
@@ -344,6 +530,48 @@ void search_patient() {
         }    
     }
     printf("Patient not found\n");
+    }
+    if (searchChoice == 2) {
+        fflush(stdin);
+        printf("Enter name to search: ");
+        fgets(name, 50, stdin);
+        name[strlen(name) - 1] = '\0';
+        for (int i = 0; i < patientCount; i++) {
+        if (strcmp(patients[i].personalInfo.id, id) == 0) {
+            printf("Patient found:\n");
+            printf("ID: %s\n", patients[i].personalInfo.id);
+            printf("Name: %s\n", patients[i].personalInfo.name);
+            printf("Age: %d\n", patients[i].personalInfo.age);
+            printf("Date of birth: %s\n", patients[i].personalInfo.dateofBirth);
+            printf("Adđress: %s\n", patients[i].personalInfo.address);
+            printf("Phone: %s\n", patients[i].personalInfo.phone);
+            printf("Relative name: %s\n", patients[i].personalInfo.relativeName);
+            printf("Relative address: %s\n", patients[i].personalInfo.relativeAddress);
+            printf("Relative phone: %s\n", patients[i].personalInfo.relativePhone);
+            printf("Has insurance: %s\n", patients[i].personalInfo.hasInsurance ? "Yes" : "No");
+            if (patients[i].personalInfo.hasInsurance) {
+                printf("Insurance expiry: %s\n", patients[i].personalInfo.insuranceExpiry);
+                printf("Insurance number: %s\n", patients[i].personalInfo.insuranceNumber);
+            }
+            printf("Is admitted: %s\n", patients[i].personalInfo.isAdmitted ? "Yes" : "No");
+            if (patients[i].personalInfo.isAdmitted) {
+                printf("Department: %s\n", patients[i].personalInfo.department);
+                printf("Room number: %d\n", patients[i].personalInfo.roomNumber);
+            }
+            printf("Reason: %s\n", patients[i].medicalRecord.reason);
+            printf("Allergies: %s\n", patients[i].medicalRecord.allergies);
+            printf("Personal history: %s\n", patients[i].medicalRecord.personalHistory);
+            printf("Family history: %s\n", patients[i].medicalRecord.familyHistory);
+            printf("Body condition: %s\n", patients[i].medicalRecord.bodyCondition);
+            printf("Pain condition: %s\n", patients[i].medicalRecord.painCondition);
+            printf("Test results: %s\n", patients[i].medicalRecord.testResults);
+            printf("Main diagnosis: %s\n", patients[i].medicalRecord.mainDiagnosis);
+            printf("Accompany diagnosis: %s\n", patients[i].medicalRecord.accompanyDiagnosis);
+            return;
+        }    
+    }
+    printf("Patient not found\n");
+    }
 }    
 
 void delete_patient() {
