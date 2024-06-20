@@ -6,7 +6,8 @@
 
 using namespace std;
 
-void Patient::enter_personal_info() {
+void Patient::enter_personal_info()  //Nhập thông tin bệnh nhân
+{
     cout << "ID: ";
     cin >> id;
     cout << "Name: ";
@@ -76,7 +77,8 @@ void Patient::enter_personal_info() {
 
 }
 
-void Patient::enter_medical_info() {
+void Patient::enter_medical_info() //Nhập thông tin về tình trạng sức khỏe
+{
     cout << "Reason: ";
     cin.ignore();
     getline(cin, reason);
@@ -106,11 +108,13 @@ void Patient::enter_medical_info() {
     getline(cin, accompanyDiagnosis);
 }
 
-string Patient::to_CSV() {
+string Patient::to_CSV() //Chuyển thông tin bệnh nhân sang dạng CSV
+{
     return id + "," + name + "," + to_string(age) + "," + dateofBirth + "," + gender + "," + address + "," + phone + "," + relativeName + "," + relativeAddress + "," + relativePhone + "," + to_string(hasInsurance) + "," + insuranceExpiry + "," + insuranceNumber + "," + to_string(isAdmitted) + "," + department + "," + to_string(roomNumber) + "," + reason + "," + allergies + "," + personalHistory + "," + familyHistory + "," + bodyCondition + "," + painCondition + "," + testResults + "," + mainDiagnosis + "," + accompanyDiagnosis;
 }
 
-void Patient::from_CSV(string csv) {
+void Patient::from_CSV(string csv) //Chuyển thông tin từ dạng CSV sang thông tin bệnh nhân
+{
     stringstream ss(csv);
     getline(ss, id, ',');
     getline(ss, name, ',');
@@ -182,14 +186,16 @@ void Patient::display_patient() {
 
 }
 
-void PatientManager::add_patient() {
+void PatientManager::add_patient() // Thêm thông tin bệnh nhân vào vector patients
+ {
     Patient p;
     p.enter_personal_info();
     p.enter_medical_info();
     patients.push_back(p);
 }
 
-void PatientManager::edit_patient(string id) {
+void PatientManager::edit_patient(string id) // Sửa thông tin bệnh nhân
+{
     for (Patient &p : patients) {
             if (p.id == id) {
                 p.display_patient();
@@ -210,7 +216,8 @@ void PatientManager::edit_patient(string id) {
         cout << "Patient not found." << endl;
 }
 
-void PatientManager::delete_patient(string id) {
+void PatientManager::delete_patient(string id) //Xóa thông tin bệnh nhân
+{
     for (auto it = patients.begin(); it != patients.end(); ++it) {
             if (it->id == id) {
                 cout << "Are you sure you want to delete this patient? (y/n): ";
@@ -235,7 +242,8 @@ void PatientManager::delete_all_patients() {
     }
 }
 
-void PatientManager::search_patient(string id) {
+void PatientManager::search_patient(string id) //   Tìm kiếm thông tin bệnh nhân, đồng thời có 2 options sửa hoặc xóa 
+ {
     for (Patient &p : patients) {
             if (p.id == id) {
                 p.display_patient();
@@ -263,7 +271,8 @@ void PatientManager::search_patient(string id) {
         cout << "Patient not found." << endl;
 }
 
-void PatientManager::save_to_file(string filename) {
+void PatientManager::save_to_file(string filename) //Hàm lưu thông tin bệnh nhân vào file
+{
     ofstream file(filename);
         if (!file.is_open()) {
             cout << "Error opening file." << endl;
@@ -275,7 +284,8 @@ void PatientManager::save_to_file(string filename) {
         file.close();
 }
 
-void PatientManager::load_from_file(string filename) {
+void PatientManager::load_from_file(string filename) //Hàm đọc thông tin bệnh nhân từ file
+{
     ifstream file(filename);
         if (!file.is_open()) {
             cout << "Error opening file." << endl;

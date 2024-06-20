@@ -87,6 +87,7 @@ void load_from_file(){
     
     fclose(file);
 }
+//Nhập thông tin bệnh nhân
 void enter_patient_info(){
     Patient p;
     printf("1. Enter personal information\n");
@@ -214,6 +215,7 @@ void enter_patient_info(){
     save_to_file();
 }
 
+//Sửa thông tin bệnh nhân, tìm kiếm bằng ID hoặc tên
 void edit_patient_info() {
     char id[20];
     char name[50];
@@ -221,7 +223,8 @@ void edit_patient_info() {
     int searchChoice;
     scanf("%d", &searchChoice);
     fflush(stdin); 
-    if (searchChoice == 1) {
+    if (searchChoice == 1) // Search by ID
+    {
         printf("Enter ID to edit: ");
         scanf("%s", id);
         for (int i = 0; i < patientCount; i++) {
@@ -349,7 +352,8 @@ void edit_patient_info() {
     }
         printf("Patient not found\n");
     } 
-    else if (searchChoice == 2) {
+    else if (searchChoice == 2) //Search by name    
+    {
         printf("Enter name to edit: ");
         fgets(name, 50, stdin);
         name[strlen(name) - 1] = '\0';
@@ -484,7 +488,8 @@ void edit_patient_info() {
 
 }
 
-void search_patient() {
+void search_patient() //Tìm kiếm bệnh nhân bằng ID hoặc tên và hiển thị
+{
     char id[20];
     char name[50];
     printf("Search patient by ID (choose 1) or name (choose 2): ");
@@ -574,7 +579,8 @@ void search_patient() {
     }
 }    
 
-void delete_patient() {
+void delete_patient() //Xóa bệnh nhân bằng ID 
+{
     char id[20];
     printf("Enter ID to delete: ");
     scanf("%s", id);
@@ -592,7 +598,8 @@ void delete_patient() {
     printf("Patient not found\n");
 }
 
-void delete_all_patients() {
+void delete_all_patients() //Xóa hết các bệnh nhân
+{
     patientCount = 0;
     save_to_file();
     printf("All patients deleted\n");

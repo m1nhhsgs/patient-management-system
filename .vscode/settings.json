@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "patient.h": "c"
+        "patient.h": "c",
+        "xstring": "cpp"
     }
 }
